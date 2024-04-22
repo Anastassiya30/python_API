@@ -85,8 +85,8 @@ class Pets:
     def put_pet_like(self):
         """Запрос к Swagger сайта для того, чтобы поставить лайк питомцу """
         my_token = Pets().get_token()[0]
-        pet_id = random.randint(26680, 26698)
         headers = {"Authorization": f'Bearer {my_token}'}
+        pet_id = Pets().post_pet()[0]
         res = requests.put(self.base_url + f"pet/{pet_id}/like", headers=headers)
         status = res.status_code
         return pet_id, status
@@ -94,9 +94,9 @@ class Pets:
     def delete_pet(self):
         """Запрос к Swagger сайта для удаления питомца """
         my_token = Pets().get_token()[0]
-        pet_id = random.randint(26670, 26699)
         headers = {"Authorization": f'Bearer {my_token}'}
-        res = requests.delete(self.base_url + f"pet/{pet_id}", headers=headers)
+        pet_id = Pets().post_pet()[0]
+        res = requests.delete(self.base_url + f'pet/{pet_id}', headers=headers)
         status = res.status_code
         return pet_id, status
 
