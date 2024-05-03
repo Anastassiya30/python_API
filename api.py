@@ -34,7 +34,7 @@ class Pets:
         status = res.status_code
         return my_token, status, my_id
 
-    def get_list_users(self):
+    def get_user_id(self):
         """Запрос к Swagger сайта для получения id пользователя """
         my_token = Pets().get_token()[0]
         headers = {"Authorization": f'Bearer {my_token}'}
@@ -49,11 +49,21 @@ class Pets:
         my_id = Pets().get_token()[2]
         headers = {"Authorization": f'Bearer {my_token}'}
         data = {"id": my_id,
-                "name": 'three3', "type": 'dog', "age": 0, "owner_id": my_id}
+                "name": 'new one', "type": 'dog', "age": 0, "owner_id": my_id}
         res = requests.post(self.base_url + 'pet', data=json.dumps(data), headers=headers)
         pet_id = res.json()['id']
         status = res.status_code
         return pet_id, status
+
+    def post_pet_list(self):
+        """"Запрос к Swagger сайта для получения списка питомцев"""
+        my_token = Pets().get_token()[0]
+        my_id = Pets().get_token()[2]
+        headers = {"Authorization": f'Bearer {my_token}'}
+        data = {"user_id": my_id}
+        res = requests.post(self.base_url + 'pets', data=json.dumps(data), headers=headers)
+        status = res.status_code
+        return status
 
     def get_pet_photo(self):
         """Запрос к Swagger сайта для загрузки фото для созданного питомца """
@@ -64,7 +74,6 @@ class Pets:
             'Yellow_Mongoose.jpg',
             open('C:\\Users\\Anast\\PycharmProjects\\python_API\\photo\\Yellow_Mongoose.jpg', 'rb'),
             'image/jpg')}
-
         res = requests.post(self.base_url + f'pet/{pet_id}/image', headers=headers, files=files)
         status = res.status_code
         link = res.json()['link']
@@ -74,13 +83,13 @@ class Pets:
         """Запрос к Swagger сайта для обновления данных питомца """
         my_token = Pets().get_token()[0]
         my_id = Pets().get_token()[2]
+        pet_id = Pets().post_pet()[0]
         headers = {"Authorization": f'Bearer {my_token}'}
-        data = {"id": my_id,
-                "name": 'Beauty', "type": 'cat', "owner_id": my_id}
-        res = requests.patch(self.base_url + 'pet', data=json.dumps(data), headers=headers)
-        pet_id = res.json()['id']
+        data = {"id": pet_id,
+                "name": 'Yeter', "type": 'reptile', "owner_id": my_id}
+        res = requests.patch(self.base_url + "pet", data=json.dumps(data), headers=headers)
         status = res.status_code
-        return pet_id, status
+        return status, pet_id
 
     def put_pet_like(self):
         """Запрос к Swagger сайта для того, чтобы поставить лайк питомцу """
@@ -103,9 +112,11 @@ class Pets:
 
 Pets().post_register()
 Pets().get_token()
-Pets().get_list_users()
+Pets().get_user_id()
 Pets().post_pet()
+Pets().post_pet_list()
 Pets().get_pet_photo()
 Pets().patch_pet()
 Pets().put_pet_like()
 Pets().delete_pet()
+

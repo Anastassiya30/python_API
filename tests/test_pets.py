@@ -20,9 +20,9 @@ def test_get_token():
     assert status == 200
 
 
-def test_list_users():
-    status = pt.get_list_users()[0]
-    my_id = pt.get_list_users()[1]
+def test_user_id():
+    status = pt.get_user_id()[0]
+    my_id = pt.get_user_id()[1]
     assert status == 200
     assert my_id
 
@@ -34,6 +34,11 @@ def test_post_pet():
     assert pet_id
 
 
+def post_pet_list():
+    status = pt.post_pet_list()[0]
+    assert status == 200
+
+
 def test_get_photo():
     status = pt.get_pet_photo()[0]
     link = pt.get_pet_photo()[1]
@@ -42,15 +47,15 @@ def test_get_photo():
 
 
 def test_patch_pet():
-    status = pt.patch_pet()[1]
-    pet_id = pt.patch_pet()[0]
+    status = pt.patch_pet()[0]
+    pet_id = pt.patch_pet()[1]
     assert status == 200
     assert pet_id
 
 
 def test_put_pet_like():
-    status = pt.patch_pet()[1]
-    pet_id = pt.patch_pet()[0]
+    status = pt.put_pet_like()[1]
+    pet_id = pt.put_pet_like()[0]
     assert status == 200
     assert pet_id
 
